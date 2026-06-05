@@ -33,6 +33,37 @@ export async function listProjectsByUserId(userId: string) {
   return docs.map((doc) => toProjectDTO(doc))
 }
 
+export async function getProjectByUserIdAndSlug(userId: string, slug: string) {
+  await connectDB()
+  const doc = await Project.findOne({
+    userId,
+    slug: slug.toLowerCase(),
+  })
+  if (!doc) return null
+  return toProjectDTO(doc)
+}
+
+export async function listPublicProjectParams() {
+  await connectDB()
+  const { Profile } = await import("@/lib/db/models/profile")
+  const publicProfiles = await Profile.find({ isPublic: true }).select(
+    "username userId",
+  )
+
+  const params: { username: string; slug: string }[] = []
+
+  for (const profile of publicProfiles) {
+    const projects = await Project.find({ userId: profile.userId }).select(
+      "slug",
+    )
+    for (const project of projects) {
+      params.push({ username: profile.username, slug: project.slug })
+    }
+  }
+
+  return params
+}
+
 export async function getProjectByIdForUser(id: string, userId: string) {
   await connectDB()
   const doc = await Project.findOne({ _id: id, userId })

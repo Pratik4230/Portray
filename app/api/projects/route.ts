@@ -5,6 +5,7 @@ import {
 import { handleApiError } from "@/lib/api/errors"
 import { ok } from "@/lib/api/response"
 import { requireSession } from "@/lib/auth/session"
+import { revalidatePublicPortfolio } from "@/lib/revalidate/public-pages"
 import { createProjectSchema } from "@/lib/validations/project"
 
 export async function GET() {
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
     const session = await requireSession()
     const body = createProjectSchema.parse(await request.json())
     const project = await createProject(session.user.id, body)
+    await revalidatePublicPortfolio(session.user.id)
     return ok(project, 201)
   } catch (error) {
     return handleApiError(error)
