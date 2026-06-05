@@ -17,3 +17,7 @@ export type PublicProfileDTO = {
   skills: string[]
   socialLinks: SocialLinks
 }
+
+export type ProfileDTO = PublicProfileDTO & {
+  isPublic: boolean
+}

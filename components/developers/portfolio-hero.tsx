@@ -1,39 +1,8 @@
 import Link from "next/link"
 
+import { ProfileAvatar } from "@/components/developers/profile-avatar"
 import { Badge } from "@/components/ui/badge"
 import type { PublicProfileDTO } from "@/types/profile"
-import Image from "next/image"
-
-function ProfileAvatar({
-  displayName,
-  avatarUrl,
-}: {
-  displayName: string
-  avatarUrl?: string
-}) {
-  const initials = displayName
-    .split(" ")
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase()
-
-  if (avatarUrl) {
-    return (
-      <Image
-        src={avatarUrl}
-        alt={displayName}
-        className="size-24 rounded-full object-cover ring-1 ring-foreground/10"
-      />
-    )
-  }
-
-  return (
-    <div className="flex size-24 items-center justify-center rounded-full bg-muted text-2xl font-medium">
-      {initials}
-    </div>
-  )
-}
 
 export function PortfolioHero({ profile }: { profile: PublicProfileDTO }) {
   const { socialLinks } = profile
@@ -44,6 +13,7 @@ export function PortfolioHero({ profile }: { profile: PublicProfileDTO }) {
         <ProfileAvatar
           displayName={profile.displayName}
           avatarUrl={profile.avatarUrl}
+          size="lg"
         />
         <div className="space-y-2">
           <h1 className="text-3xl font-medium tracking-tight">

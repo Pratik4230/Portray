@@ -1,6 +1,15 @@
 import { connectDB } from "@/lib/db/client"
 import { Profile, type ProfileDocument } from "@/lib/db/models/profile"
-import type { PublicProfileDTO } from "@/types/profile"
+import { NotFoundError } from "@/lib/api/errors"
+import type { UpdateProfileInput } from "@/lib/validations/profile"
+import type { ProfileDTO, PublicProfileDTO } from "@/types/profile"
+
+export function toProfileDTO(doc: ProfileDocument): ProfileDTO {
+  return {
+    ...toPublicProfileDTO(doc),
+    isPublic: doc.isPublic ?? false,
+  }
+}
 
 export function toPublicProfileDTO(doc: ProfileDocument): PublicProfileDTO {
   const social = doc.socialLinks ?? {}
@@ -72,4 +81,62 @@ export async function getProfileUsernameByUserId(userId: string) {
   const doc = await Profile.findOne({ userId }).select("username isPublic")
   if (!doc) return null
   return { username: doc.username, isPublic: doc.isPublic ?? false }
+}
+
+export async function getProfileByUserId(userId: string) {
+  await connectDB()
+  const doc = await Profile.findOne({ userId })
+  if (!doc) {
+    throw new NotFoundError("Profile not found")
+  }
+  return toProfileDTO(doc)
+}
+
+function emptyToUndefined(value?: string) {
+  if (!value?.trim()) return undefined
+  return value.trim()
+}
+
+export async function updateProfileForUser(
+  userId: string,
+  input: UpdateProfileInput,
+) {
+  await connectDB()
+
+  const doc = await Profile.findOne({ userId })
+  if (!doc) {
+    throw new NotFoundError("Profile not found")
+  }
+
+  const previous = {
+    username: doc.username,
+    isPublic: doc.isPublic ?? false,
+  }
+
+  if (input.displayName !== undefined) doc.displayName = input.displayName.trim()
+  if (input.headline !== undefined) doc.headline = input.headline.trim()
+  if (input.bio !== undefined) doc.bio = input.bio.trim()
+  if (input.avatarUrl !== undefined) {
+    doc.avatarUrl = emptyToUndefined(input.avatarUrl)
+  }
+  if (input.location !== undefined) {
+    doc.location = emptyToUndefined(input.location)
+  }
+  if (input.skills !== undefined) doc.skills = input.skills
+  if (input.socialLinks !== undefined) {
+    doc.socialLinks = {
+      github: emptyToUndefined(input.socialLinks.github),
+      linkedin: emptyToUndefined(input.socialLinks.linkedin),
+      x: emptyToUndefined(input.socialLinks.x),
+      website: emptyToUndefined(input.socialLinks.website),
+    }
+  }
+  if (input.isPublic !== undefined) doc.isPublic = input.isPublic
+
+  await doc.save()
+
+  return {
+    profile: toProfileDTO(doc),
+    previous,
+  }
 }
