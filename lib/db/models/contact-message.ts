@@ -3,7 +3,7 @@ import mongoose, { type InferSchemaType, Schema } from "mongoose"
 const contactMessageSchema = new Schema(
   {
     developerUserId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
       index: true,
     },

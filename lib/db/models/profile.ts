@@ -13,7 +13,7 @@ const socialLinksSchema = new Schema(
 const profileSchema = new Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       required: true,
       unique: true,
       index: true,

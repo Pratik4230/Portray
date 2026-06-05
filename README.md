@@ -1,21 +1,52 @@
-# Next.js template
+# Portray
 
-This is a Next.js template with shadcn/ui.
+Show who you are. Portray is where developers publish portfolios and recruiters discover talent.
 
-## Adding components
+## Stack
 
-To add components to your app, run the following command:
+| Package | Version |
+|---------|---------|
+| Next.js | 16.2.6 |
+| better-auth | 1.6.14 |
+| @better-auth/mongo-adapter | 1.6.14 |
+| resend | 6.12.4 |
+| mongoose | 9.6.3 |
+| @tanstack/react-form | 1.33.x |
+| @tanstack/react-query | 5.101.x |
+
+UI: shadcn/ui, Aceternity UI (`@aceternity/background-beams`)
+
+## Setup
 
 ```bash
-npx shadcn@latest add button
+cp .env.example .env.local
+bun install
 ```
 
-This will place the ui components in the `components` directory.
+Set in `.env.local`:
 
-## Using components
+- `MONGO_URI` — MongoDB connection string
+- `BETTER_AUTH_SECRET` — `openssl rand -base64 32`
+- `BETTER_AUTH_URL` — `http://localhost:3000`
+- `NEXT_PUBLIC_SITE_URL` — `http://localhost:3000`
+- `RESEND_API_KEY` — from [Resend](https://resend.com)
+- `RESEND_FROM_EMAIL` — verified sender, e.g. `Portray <onboarding@resend.dev>`
 
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
+```bash
+bun run dev
 ```
+
+## Auth flows
+
+| Route | Purpose |
+|-------|---------|
+| `/sign-up` | Register with email, username, password |
+| `/verify-email` | Email OTP (sent once on signup) → auto sign-in |
+| `/sign-in` | Login |
+| `/forgot-password` | Request reset OTP |
+| `/reset-password` | Reset password with OTP |
+| `/dashboard` | Protected developer area |
+
+## Docs
+
+See [docs/PROJECT_ARCHITECTURE.md](docs/PROJECT_ARCHITECTURE.md).
