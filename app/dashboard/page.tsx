@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { headers } from "next/headers"
 
 import { getAuth } from "@/lib/auth"
@@ -12,7 +13,14 @@ export default async function DashboardPage() {
     <div className="mx-auto max-w-2xl space-y-2">
       <h1 className="text-2xl font-medium">Dashboard</h1>
       <p className="text-muted-foreground">
-        Welcome, {session?.user.name}. Your portfolio tools will live here.
+        Welcome, {session?.user.name}. Manage your portfolio from the sidebar.
+      </p>
+      <p className="text-sm text-muted-foreground">
+        Start with{" "}
+        <Link href="/dashboard/projects" className="font-medium text-foreground underline-offset-4 hover:underline">
+          Projects
+        </Link>{" "}
+        to add work via the REST API.
       </p>
     </div>
   )

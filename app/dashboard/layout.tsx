@@ -2,6 +2,7 @@ import Link from "next/link"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
+import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { SignOutButton } from "@/components/auth/sign-out-button"
 import { getAuth } from "@/lib/auth"
 
@@ -30,7 +31,12 @@ export default async function DashboardLayout({
           <SignOutButton />
         </nav>
       </header>
-      <main className="flex-1 p-6">{children}</main>
+      <div className="mx-auto flex w-full max-w-5xl flex-1 gap-8 p-6">
+        <aside className="w-40 shrink-0">
+          <DashboardNav />
+        </aside>
+        <main className="min-w-0 flex-1">{children}</main>
+      </div>
     </div>
   )
 }

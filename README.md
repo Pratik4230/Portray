@@ -46,6 +46,19 @@ bun run dev
 | `/forgot-password` | Request reset OTP |
 | `/reset-password` | Reset password with OTP |
 | `/dashboard` | Protected developer area |
+| `/dashboard/projects` | Projects CRUD (REST + TanStack Query) |
+
+## Projects API
+
+| Method | Path |
+|--------|------|
+| GET | `/api/projects` |
+| POST | `/api/projects` |
+| GET | `/api/projects/[id]` |
+| PATCH | `/api/projects/[id]` |
+| DELETE | `/api/projects/[id]` |
+
+Responses use `{ success, data }` or `{ success: false, error }`. Requires session cookie.
 
 ## Docs
 
