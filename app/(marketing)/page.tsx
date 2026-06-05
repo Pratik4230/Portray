@@ -1,10 +1,16 @@
 import Link from "next/link"
+import { headers } from "next/headers"
 
 import { DeveloperCard } from "@/components/developers/developer-card"
 import { Button } from "@/components/ui/button"
+import { getAuth } from "@/lib/auth"
 import { listFeaturedPublicProfiles } from "@/lib/db/repositories/profiles"
 
 export default async function HomePage() {
+  const auth = await getAuth()
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
   const featured = await listFeaturedPublicProfiles(3)
 
   return (
@@ -18,12 +24,25 @@ export default async function HomePage() {
           talent.
         </p>
         <div className="flex gap-3">
-          <Button asChild>
-            <Link href="/sign-up">Create account</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link href="/developers">Explore developers</Link>
-          </Button>
+          {session ? (
+            <>
+              <Button asChild>
+                <Link href="/dashboard">Go to dashboard</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/developers">Explore developers</Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild>
+                <Link href="/sign-up">Create account</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/developers">Explore developers</Link>
+              </Button>
+            </>
+          )}
         </div>
       </section>
       {featured.length > 0 ? (

@@ -1,6 +1,7 @@
 "use client"
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import Link from "next/link"
 import { useState } from "react"
 
 import { ProjectFormDialog } from "@/components/dashboard/project-form-dialog"
@@ -127,10 +128,13 @@ export function ProjectsManager() {
           {projects.map((project) => (
             <article
               key={project.id}
-              className="rounded-lg border bg-card p-4 shadow-xs"
+              className="rounded-lg border bg-card p-4 shadow-xs transition-colors hover:bg-muted/20"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="space-y-1">
+                <Link
+                  href={`/dashboard/projects/${project.id}`}
+                  className="min-w-0 flex-1 space-y-1"
+                >
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="font-medium">{project.title}</h2>
                     {project.featured ? <Badge>Featured</Badge> : null}
@@ -138,10 +142,10 @@ export function ProjectsManager() {
                   <p className="text-xs text-muted-foreground">
                     /developers/you/projects/{project.slug}
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="line-clamp-2 text-sm text-muted-foreground">
                     {project.description}
                   </p>
-                </div>
+                </Link>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -165,13 +169,16 @@ export function ProjectsManager() {
                 </div>
               </div>
               {project.techStack.length > 0 ? (
-                <div className="mt-3 flex flex-wrap gap-2">
+                <Link
+                  href={`/dashboard/projects/${project.id}`}
+                  className="mt-3 flex flex-wrap gap-2"
+                >
                   {project.techStack.map((tech) => (
                     <Badge key={tech} variant="secondary">
                       {tech}
                     </Badge>
                   ))}
-                </div>
+                </Link>
               ) : null}
             </article>
           ))}

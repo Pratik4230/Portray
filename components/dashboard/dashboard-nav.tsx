@@ -22,7 +22,8 @@ export function DashboardNav() {
           href={link.href}
           className={cn(
             "rounded-md px-3 py-2 transition-colors hover:bg-muted",
-            pathname === link.href
+            pathname === link.href ||
+              (link.href !== "/dashboard" && pathname.startsWith(`${link.href}/`))
               ? "bg-muted font-medium text-foreground"
               : "text-muted-foreground",
           )}
