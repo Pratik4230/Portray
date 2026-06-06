@@ -10,6 +10,7 @@ const links = [
   { href: "/dashboard/profile", label: "Profile" },
   { href: "/dashboard/projects", label: "Projects" },
   { href: "/dashboard/experience", label: "Experience" },
+  { href: "/dashboard/messages", label: "Messages" },
 ]
 
 export function DashboardNav() {

@@ -36,6 +36,22 @@ Set in `.env.local`:
 bun run dev
 ```
 
+## Seed demo data
+
+Creates three public demo developers with projects, experience, and sample inbox messages:
+
+```bash
+bun run seed
+```
+
+| Developer | Email | Password | Public portfolio |
+|-----------|-------|----------|------------------|
+| Jane Doe | `jane@demo.portray.dev` | `Demo1234!` | `/developers/jane` |
+| Alex Chen | `alex@demo.portray.dev` | `Demo1234!` | `/developers/alex` |
+| Sam Patel | `sam@demo.portray.dev` | `Demo1234!` | `/developers/sam` |
+
+Safe to re-run: refreshes app data for these accounts without duplicating users.
+
 ## Auth flows
 
 | Route | Purpose |

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+import { ContactDeveloperForm } from "@/components/developers/contact-developer-form"
 import { ExperienceTimeline } from "@/components/developers/experience-timeline"
 import { PortfolioHero } from "@/components/developers/portfolio-hero"
 import { PortfolioStats } from "@/components/developers/portfolio-stats"
@@ -60,6 +61,7 @@ export default async function PortfolioPage({ params }: PageProps) {
         <PortfolioStats userId={profile.userId} />
         <ExperienceTimeline experience={experience} />
         <ProjectsGrid projects={projects} username={profile.username} />
+        <ContactDeveloperForm username={profile.username} />
         <p className="text-sm text-muted-foreground">
           <Link href="/developers" className="hover:underline">
             Back to developers
