@@ -29,6 +29,13 @@ export default async function DashboardPage() {
           className="font-medium text-foreground underline-offset-4 hover:underline"
         >
           projects
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/dashboard/experience"
+          className="font-medium text-foreground underline-offset-4 hover:underline"
+        >
+          experience
         </Link>
         , then turn on public visibility to appear in the developer directory.
       </p>
